@@ -1,0 +1,62 @@
+import { AccountInfo } from "../Utilities/api.js";
+import { shome, sprofile } from "./static.js";
+
+
+const getUser = () =>{
+    return sessionStorage.getItem("user");
+}    
+
+const dashboard = document.querySelector(".dashboard button");
+const profile = document.querySelector(".profile button");
+const progress = document.querySelector(".progress button");
+const tm = document.querySelector(".training-modules button");
+const support = document.querySelector(".support button");
+
+const clearActiveClass = ()=>{
+    const links = document.querySelectorAll("li");
+    links.forEach((el) =>{
+        el.classList.remove("active");
+    })
+}
+
+dashboard.addEventListener("click", async (e) =>{
+    e.preventDefault();
+    clearActiveClass();
+    document.querySelector(".dashboard").classList.add("active");
+    const content = document.querySelector(".content");
+    content.innerHTML = shome;
+    const details = (await AccountInfo(getUser())).result;
+    const mcompleted = document.querySelector("#modules-completed");
+    const avg = document.querySelector("#average-score");
+    mcompleted.textContent = details.mcompleted;
+    avg.textContent = details.avgscore + "%";
+    history.pushState({}, "", "dashboard");
+})
+
+profile.addEventListener("click", async (e) =>{
+    e.preventDefault();
+    clearActiveClass();
+    document.querySelector(".profile").classList.add("active");
+    const content = document.querySelector(".content");
+    content.innerHTML = sprofile;
+    const details = (await AccountInfo(getUser())).result;
+    const obj = {
+        name:"",email:"", gender:"",address:""
+    }
+    for(const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            const doc = document.querySelector(`#${key}`);
+            doc.innerHTML = "";
+            const str =document.createElement("strong");
+            str.textContent = `${key.toUpperCase()}: `; 
+            doc.appendChild(str);
+            doc.innerHTML += `${details[key]}`
+            
+        }
+    }
+        history.pushState({}, "", "profile");
+
+})
+
+
+
