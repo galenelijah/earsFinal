@@ -1,5 +1,5 @@
 import { AccountInfo } from "../Utilities/api.js";
-import { shome, sprofile } from "./static.js";
+import { modules, shome, sprofile } from "./static.js";
 
 
 const getUser = () =>{
@@ -18,12 +18,14 @@ const clearActiveClass = ()=>{
         el.classList.remove("active");
     })
 }
-
-dashboard.addEventListener("click", async (e) =>{
-    e.preventDefault();
-    clearActiveClass();
+window.addEventListener("DOMContentLoaded",async (e) =>{
+    await updateDashboard();
+})
+const updateDashboard = async () => {
+        clearActiveClass();
     document.querySelector(".dashboard").classList.add("active");
     const content = document.querySelector(".content");
+    content.classList.remove("cardContainer");
     content.innerHTML = shome;
     const details = (await AccountInfo(getUser())).result;
     const mcompleted = document.querySelector("#modules-completed");
@@ -31,6 +33,10 @@ dashboard.addEventListener("click", async (e) =>{
     mcompleted.textContent = details.mcompleted;
     avg.textContent = details.avgscore + "%";
     history.pushState({}, "", "dashboard");
+}
+dashboard.addEventListener("click", async (e) =>{
+    e.preventDefault();
+    updateDashboard();
 })
 
 profile.addEventListener("click", async (e) =>{
@@ -38,6 +44,7 @@ profile.addEventListener("click", async (e) =>{
     clearActiveClass();
     document.querySelector(".profile").classList.add("active");
     const content = document.querySelector(".content");
+    content.classList.remove("cardContainer");
     content.innerHTML = sprofile;
     const details = (await AccountInfo(getUser())).result;
     const obj = {
@@ -59,4 +66,14 @@ profile.addEventListener("click", async (e) =>{
 })
 
 
-
+tm.addEventListener("click", (e) => {
+    e.preventDefault();
+    clearActiveClass();
+    document.querySelector(".training-modules").classList.add("active");
+     const container = document.querySelector(".employee-dashboard-layout")
+     container.removeChild(document.querySelector('.main-content-area'));
+     const temp = document.createElement("div");
+     temp.classList.add("main-content-area")
+     temp.innerHTML = modules;
+     container.appendChild(temp);
+});

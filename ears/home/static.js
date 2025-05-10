@@ -42,4 +42,35 @@ export const shome = ` <main class="content">
                         </div>
                     </div>
                 </section>
-            </main>`
+            </main>
+            `
+
+export const modules = 
+`
+            <header class="main-header">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="search" placeholder="Search training modules...">
+                </div>
+                <div class="user-info">
+                     <i class="fa-regular fa-bell notification-icon"></i>
+                    <span id="user-role">Employee</span>
+                    <i class="fa-regular fa-circle-user user-icon"></i>
+                    <button id="logout-button">Logout</button>
+                </div>
+            </header>
+
+            <main class="content cardContainer">
+                <div class="card">
+                    <div class="card-content">
+                        <h1>Title</h1>
+                        <h2>Course Code</h2>
+                        <h3>Description</h3>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <p>&copy; 2025 EARS</p>
+            </footer>
+        `
