@@ -743,7 +743,7 @@ a.button:hover {
 
 .content {
     padding: 2rem;
-    flex-grow: 1;
+    /* flex-grow: 1; */
 }
 
 .content h1 {
@@ -1002,6 +1002,7 @@ a.button:hover {
 .cardContainer{
     display: flex;
     flex-wrap: wrap;
+    min-height: 50vh;  
 }
 .card {
     display: flex;

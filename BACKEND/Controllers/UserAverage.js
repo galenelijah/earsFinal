@@ -5,7 +5,7 @@ const UserAverage= async (req, res) => {
   try {
     const db = getDB();
     const filter = { email: {$eq: req.query.email} };
-    const update = { $set: { avg: req.query.avg} };
+    const update = { $set: { avgscore: req.query.avg} };
     const result = await db.collection("info").updateOne(filter, update);
 
     if (result.matchedCount === 0) {

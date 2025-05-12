@@ -74,3 +74,67 @@ export const modules =
                 <p>&copy; 2025 EARS</p>
             </footer>
         `
+
+
+
+        // const module = {
+        //     body:"Module Empty..."
+        // }
+        // const question = {
+        //     problem:"Problem is empty...",
+        //     choices:[],
+        //     answer: ""
+        // }
+        // const quiz = {
+        //     questions:[],
+        //     score:0
+        // }
+        // const course = {
+        //         title:"",
+        //         modules:[],
+        //         quizzes:[]
+        //     }
+
+        // const courses = []
+
+
+        const courses = [
+  {
+    title: "Introduction to Computer Science",
+    modules: [
+      { 
+        title: "Computer Science Fundamentals",
+        body: "Overview of algorithms, data structures, and computational thinking." 
+      },
+      { 
+        title: "Programming Basics",
+        body: "Variables, data types, and control structures in Python/JavaScript." 
+      },
+      { 
+        title: "Web Development",
+        body: "HTML/CSS fundamentals and client-server architecture." 
+      }
+    ],
+    quizzes: [
+      {
+        questions: [
+          {
+            problem: "What does CPU stand for?",
+            choices: ["Central Processing Unit", "Computer Processing Unit", "Central Program Utility", "Core Processing Unit"],
+            answer: "Central Processing Unit"
+          },
+          {
+            problem: "Which language is used for styling web pages?",
+            choices: ["HTML", "CSS", "JavaScript", "Python"],
+            answer: "CSS"
+          },
+          {
+            problem: "What is the output of `print(3 * 'a')` in Python?",
+            choices: ["aaa", "3a", "a3", "Error"],
+            answer: "aaa"
+          }
+        ],
+        score: 0
+      }
+    ]
+  }]

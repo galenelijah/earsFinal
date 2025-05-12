@@ -6,5 +6,15 @@
     "mongodb": "^6.15.0",
     "nodemon": "^3.1.9"
   },
-  "type": "commonjs"
+  "name": "ears-software-design",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "npm install && echo 'Build completed'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

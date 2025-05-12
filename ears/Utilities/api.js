@@ -1,4 +1,4 @@
-
+const HOST = "http://localhost:3000";
 
 export const CheckLogin = async (user) =>{
   const details ={};
@@ -16,7 +16,7 @@ export const CheckLogin = async (user) =>{
   };
   
   try {
-    const response = await fetch("http://localhost:3000/ears/users/login", requestOptions);
+    const response = await fetch(`${HOST}/ears/users/login`, requestOptions);
     const text = await response.text();
 
     details.text = text;
@@ -46,9 +46,8 @@ export const RegisterAccount = async (user) =>{
   };
   
   try {
-    const response = await fetch("http://localhost:3000/ears/users/register", requestOptions);
+    const response = await fetch(`${HOST}/ears/users/register`, requestOptions);
     const text = await response.text();
-
     details.text = text;
     details.status = response.status;
   } catch (error) {
@@ -70,11 +69,36 @@ export const AccountInfo = async (user) =>{
     redirect: "follow"
   };
   try {
-    const response = await fetch(`http://localhost:3000/ears/info?email=${user}`, requestOptions);
+    const response = await fetch(`${HOST}/ears/info?email=${user}`, requestOptions);
     details.result = await response.json();
   } catch (error) {
     details.result = 0
   }
 
   return details;
+}
+
+
+export const initAccount = async (user) =>{
+  const details ={};
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    "email": user.email,
+    "name": user.name
+  });
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+  
+  try {
+    const response = await fetch(`${HOST}/ears/info/create`, requestOptions);
+    const text = await response.text();
+    console.log(response.status);
+  } catch (error) {
+    console.log(error);
+  }
 }

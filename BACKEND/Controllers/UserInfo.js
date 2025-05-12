@@ -6,8 +6,8 @@ const UserInfo = async (req, res) =>{
             const query = {
                 email: { $eq: req.query.email}
             };
-        const users = await db.collection("info").find().toArray();
+        const users = await db.collection("info").find(query).toArray();
         res.status(200).json(users[0]);
-}
+}   
 
 module.exports = {UserInfo};

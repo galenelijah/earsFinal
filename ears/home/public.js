@@ -1,4 +1,5 @@
 import { AccountInfo } from "../Utilities/api.js";
+import { logout } from "./logout.js";
 import { modules, shome, sprofile } from "./static.js";
 
 
@@ -32,6 +33,7 @@ const updateDashboard = async () => {
     const avg = document.querySelector("#average-score");
     mcompleted.textContent = details.mcompleted;
     avg.textContent = details.avgscore + "%";
+    logout();
     history.pushState({}, "", "dashboard");
 }
 dashboard.addEventListener("click", async (e) =>{
@@ -61,6 +63,7 @@ profile.addEventListener("click", async (e) =>{
             
         }
     }
+        logout();
         history.pushState({}, "", "profile");
 
 })
@@ -76,4 +79,5 @@ tm.addEventListener("click", (e) => {
      temp.classList.add("main-content-area")
      temp.innerHTML = modules;
      container.appendChild(temp);
+     logout();
 });

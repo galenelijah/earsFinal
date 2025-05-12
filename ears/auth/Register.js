@@ -1,11 +1,9 @@
-import { RegisterAccount } from "../Utilities/api.js";
+import { initAccount, RegisterAccount } from "../Utilities/api.js";
 
 
 
 const form = document.getElementById("register-form");
-
 const email = document.getElementById("email");
-const data = {};
 
 const emailValidity = () => {
     email.setCustomValidity(""); // reset before checking
@@ -14,11 +12,7 @@ const emailValidity = () => {
     return 1;
 };
 
-
-const send = async (formData)=>{
-    formData.forEach((value, key) => {
-      data[key] = value;
-    })
+const send = async (data)=>{
     const details = await RegisterAccount(data);
     const status = details.status;
     const text = details.text;
@@ -30,15 +24,20 @@ const send = async (formData)=>{
     }else if(status == 400){
       console.error("Status: "+ status+"\nResponse: "+text)
       alert("ERROR"+"\nStatus: "+ status+"\nResult: "+text)
-    }else {
+    }else if(status== 200){
       console.log("Status: "+ status+"\nResponse: "+text)
+      await initAccount(data); // Initialize account information
       alert("Status: "+ status+"\nResult: "+text)
     }
 }
 form.addEventListener("submit", async (e) =>{
     e.preventDefault(); // Prevent page refresh
+    const data = {};
     const formData = new FormData(form);
     let res = emailValidity();
-    await send(formData);
+      formData.forEach((value, key) => {
+      data[key] = value;
+    })
+    await send(data);
 });
 
