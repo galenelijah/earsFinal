@@ -102,3 +102,44 @@ export const initAccount = async (user) =>{
     console.log(error);
   }
 }
+
+export const GetCourse = async (user, courseTitle) =>{
+    const details ={};
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+ 
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+  };
+  try {
+    const response = await fetch(`${HOST}/ears/info/course?email=${user}&courseTitle=${courseTitle}`, requestOptions);
+    details.result = await response.json();
+  } catch (error) {
+    details.result = 0
+  }
+
+  return details;
+}
+
+
+export const GetCourseList = async () =>{
+    const details ={};
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+ 
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+  };
+  try {
+    const response = await fetch(`${HOST}/ears/info/courselist`, requestOptions);
+    details.result = await response.json();
+  } catch (error) {
+    console.log(error);
+    details = 0;
+  }
+  return details;
+}

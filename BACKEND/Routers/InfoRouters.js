@@ -1,6 +1,8 @@
 const { UserAddress } = require("../Controllers/UserAddress");
 const { UserAverage } = require("../Controllers/UserAverage");
 const { UserCompleted } = require("../Controllers/UserCompleted");
+const { UserCourse } = require("../Controllers/UserCourse");
+const { UserCourseList } = require("../Controllers/UserCourseList");
 const { UserGender } = require("../Controllers/UserGender");
 const { UserInfo } = require("../Controllers/UserInfo");
 const { UserName } = require("../Controllers/UserName");
@@ -14,6 +16,8 @@ InfoRouter.get("/info/avg", UserAverage);
 InfoRouter.get("/info/gen", UserGender);
 InfoRouter.get("/info/addr", UserAddress);
 InfoRouter.get("/info/mcomp", UserCompleted);
+InfoRouter.get("/info/course", UserCourse);
+InfoRouter.get("/info/courselist", UserCourseList);
 InfoRouter.post("/info/create", UserRegInfo);
 
 module.exports = {InfoRouter};

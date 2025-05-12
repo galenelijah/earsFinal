@@ -1002,12 +1002,11 @@ a.button:hover {
 .cardContainer{
     display: flex;
     flex-wrap: wrap;
-    min-height: 50vh;  
 }
 .card {
     display: flex;
     justify-content: center;
-    margin: 5px;
+    margin: 35px;
     width: 55vh;
     height: 45vh;
     box-shadow: 0px 6px 5px 3px rgba(0, 0, 0, 0.45);
@@ -1038,4 +1037,84 @@ a.button:hover {
     word-wrap: break-word;
     overflow-wrap: break-word; /* Let long words wrap */
     white-space: normal; /* Allow text to break to new lines */
+}
+
+
+.course-content {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.module_header{
+    background-color: rgba(95, 72, 72, 0.329);
+    min-height: 10vh;
+    height: 10vh;
+    width: 50rem;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: #333;
+    border-color: rgba(128, 128, 128, 0.192);
+}
+.module_card {
+    background-color: #F2F2F2;
+    min-height: 10vh;
+    height: 10vh;
+    width: 50rem;
+    border-width: 1.5px;
+    display: flex;
+    justify-content:start;
+    border-style: solid;
+    border-color: rgba(128, 128, 128, 0.192);
+}
+
+.module_card h4:hover{
+    color: blue;
+    cursor: grab;
+    text-decoration: underline;
+}
+.module_card h4 {
+    margin: 10px;
+}
+.marginh1{
+    margin-top: 5rem;
+     width: 50rem;
+}
+.posh1{
+    width: 50rem;
+}
+.quiz_header{
+    background-color: rgba(95, 72, 72, 0.329);
+    min-height: 10vh;
+    height: 10vh;
+    width: 50rem;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: #333;
+    border-radius: none;
+    border-color: rgba(128, 128, 128, 0.192);
+}
+.quiz_card {
+    background-color: #F2F2F2;
+    min-height: 10vh;
+    height: 10vh;
+    width: 50rem;
+    border-width: 1.5px;
+    display: flex;
+    justify-content:space-between;
+    border-style: solid;
+    border-color: rgba(128, 128, 128, 0.192);
+}
+.quiz_card h4 {
+    margin: 10px;
+}
+.quiz_card h4:hover{
+    color: blue;
+    cursor: grab;
+    text-decoration: underline;
+}
+.quiz_card p {
+    margin: 10px;
+    position: relative;
 }

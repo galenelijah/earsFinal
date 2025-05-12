@@ -12,7 +12,7 @@ export const sprofile = `
           </div>
         </section>`;
 
-export const shome = ` <main class="content">
+export const shome = `
                 <h1>Training Dashboard</h1>
 
                 <section class="module-overview">
@@ -42,25 +42,10 @@ export const shome = ` <main class="content">
                         </div>
                     </div>
                 </section>
-            </main>
             `
 
 export const modules = 
-`
-            <header class="main-header">
-                <div class="search-bar">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="search" placeholder="Search training modules...">
-                </div>
-                <div class="user-info">
-                     <i class="fa-regular fa-bell notification-icon"></i>
-                    <span id="user-role">Employee</span>
-                    <i class="fa-regular fa-circle-user user-icon"></i>
-                    <button id="logout-button">Logout</button>
-                </div>
-            </header>
-
-            <main class="content cardContainer">
+`<main class="content cardContainer">
                 <div class="card">
                     <div class="card-content">
                         <h1>Title</h1>
@@ -68,12 +53,7 @@ export const modules =
                         <h3>Description</h3>
                     </div>
                 </div>
-            </main>
-
-            <footer>
-                <p>&copy; 2025 EARS</p>
-            </footer>
-        `
+            </main>`
 
 
 
