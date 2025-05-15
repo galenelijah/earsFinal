@@ -70,6 +70,7 @@ footer {
     max-width: 400px;
     text-align: center;
     margin: 5rem auto; 
+    transition: all 0.3s ease;
 }
 
 .auth-container h1 {
@@ -80,6 +81,7 @@ footer {
 .form-group {
     margin-bottom: 1rem;
     text-align: left;
+    position: relative;
 }
 
 label {
@@ -98,12 +100,21 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 input:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+input:invalid {
+    border-color: #e74c3c;
+}
+
+input:invalid:focus {
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
 }
 
 button[type="submit"] {
@@ -115,40 +126,88 @@ button[type="submit"] {
     border-radius: 4px;
     font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     margin-top: 1rem;
+    position: relative;
 }
 
 button[type="submit"]:hover {
     background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Loading animation for buttons */
+button[type="submit"]:disabled::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: calc(50% - 10px);
+    right: 10px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: button-loading-spinner 1s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(1turn);
+    }
 }
 
 .message {
     margin-top: 1rem;
-    padding: 0.5rem;
+    padding: 0.8rem;
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     display: none; /* Hide by default */
+    transition: all 0.3s ease;
+    animation: fadeIn 0.3s ease;
+    text-align: left;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .error-message {
     color: #c0392b;
-    background-color: #fdd;
-    border: 1px solid #c0392b;
+    background-color: #fdecea;
+    border-left: 4px solid #e74c3c;
 }
 
 .success-message {
     color: #27ae60;
     background-color: #e8f8f5;
-    border: 1px solid #27ae60;
+    border-left: 4px solid #2ecc71;
 }
 
 .auth-container a {
     color: #3498db;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .auth-container a:hover {
+    color: #2980b9;
     text-decoration: underline;
 }
 

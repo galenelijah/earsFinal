@@ -15,28 +15,28 @@
 <body>
     <div class="employee-dashboard-layout">
 
-        <aside class="sidebar">
+        <aside class="sidebar" role="navigation" aria-label="Main navigation">
             <div class="sidebar-header">
                 <img src="/assets/ears-logo.png" alt="EARS Logo" class="logo">
                 <h2>EARS</h2>
             </div>
             <nav class="sidebar-nav">
                 <ul>
-        <li class="active dashboard">
-            <button class="nav-button" data-page="Home.html"><i class="fa-solid fa-table-columns"></i> Dashboard</button>
-        </li>
-        <li class="profile">
-            <button class="nav-button" data-page="EProfile.html"><i class="fa-solid fa-user"></i> Profile</button>
-        </li>
-        <li class="training-modules">
-            <button class="nav-button" data-page="training-modules.html"><i class="fa-solid fa-book-open"></i> Training Modules</button>
-        </li>
-        <li class="progress">
-            <button class="nav-button" data-page="Progress.html"><i class="fa-solid fa-chart-line"></i> Progress</button>
-        </li>
-        <li class="support">
-            <button class="nav-button" data-page="Support.html"><i class="fa-solid fa-headset"></i> Support</button>
-        </li>
+                    <li class="active dashboard">
+                        <button class="nav-button" data-page="Home.html" aria-current="page"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Dashboard</button>
+                    </li>
+                    <li class="profile">
+                        <button class="nav-button" data-page="EProfile.html"><i class="fa-solid fa-user" aria-hidden="true"></i> Profile</button>
+                    </li>
+                    <li class="training-modules">
+                        <button class="nav-button" data-page="training-modules.html"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Training Modules</button>
+                    </li>
+                    <li class="progress">
+                        <button class="nav-button" data-page="Progress.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Progress</button>
+                    </li>
+                    <li class="support">
+                        <button class="nav-button" data-page="Support.html"><i class="fa-solid fa-headset" aria-hidden="true"></i> Support</button>
+                    </li>
                 </ul>
             </nav>
         </aside>
@@ -44,36 +44,36 @@
         <div class="main-content-area">
             <header class="main-header">
                 <div class="search-bar">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="search" placeholder="Search training modules and assessments">
+                    <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                    <input type="search" placeholder="Search training modules and assessments" aria-label="Search training modules and assessments">
                 </div>
                 <div class="user-info">
-                     <i class="fa-regular fa-bell notification-icon"></i>
+                     <i class="fa-regular fa-bell notification-icon" aria-hidden="true"></i>
                     <span id="user-role">Employee</span>
-                    <i class="fa-regular fa-circle-user user-icon"></i>
-                    <button id="logout-button">Logout</button>
+                    <i class="fa-regular fa-circle-user user-icon" aria-hidden="true"></i>
+                    <button id="logout-button" aria-label="Logout">Logout</button>
                 </div>
             </header>
 
             <main class="content">
                 <h1>Training Dashboard</h1>
 
-                <section class="module-overview">
+                <section class="module-overview" aria-labelledby="module-overview-heading">
+                    <h2 id="module-overview-heading" class="visually-hidden">Module Overview</h2>
                     <div class="module-card">
                         <h3>POS Basics Training</h3>
-                        <p>0% Complete<w/p>
-                        <a href="#" class="button play-button"><i class="fa-solid fa-play"></i></a>
+                        <p>0% Complete</p>
+                        <a href="#" class="button play-button" aria-label="Start POS Basics Training"><i class="fa-solid fa-play" aria-hidden="true"></i></a>
                     </div>
                     <div class="module-card">
                         <h3>Customer Service Essentials</h3>
                         <p>0% Complete</p>
-                         <a href="#" class="button play-button"><i class="fa-solid fa-play"></i></a>
+                         <a href="#" class="button play-button" aria-label="Start Customer Service Essentials"><i class="fa-solid fa-play" aria-hidden="true"></i></a>
                     </div>
-                    <!-- Add more module cards as needed -->
                 </section>
 
-                <section class="performance-summary">
-                    <h2>Your Performance</h2>
+                <section class="performance-summary" aria-labelledby="performance-heading">
+                    <h2 id="performance-heading">Your Performance</h2>
                     <div class="performance-metrics">
                         <div class="metric">
                             <span class="value" id="modules-completed">6</span>
@@ -88,7 +88,21 @@
             </main>
         </div>
     </div>
-<script type="module" src="/home/public.js"></script>
-<script type="module" src="/home/logout.js"></script>
+    <!-- Add styles for screen readers -->
+    <style>
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+    <script type="module" src="/home/public.js"></script>
+    <script type="module" src="/home/logout.js"></script>
+    <script type="module" src="/home/dashboard-enhancements.js"></script>
 </body>
 </html> 
