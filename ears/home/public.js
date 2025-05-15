@@ -1,6 +1,6 @@
 import { AccountInfo, GetCourse, GetCourseList } from "../Utilities/api.js";
 import { logout } from "./logout.js";
-import { modules, shome, sprofile } from "./static.js";
+import { modules, shome, sprofile, sprogress, ssupport } from "./static.js";
 
 
 const getUser = () =>{
@@ -19,23 +19,56 @@ const clearActiveClass = ()=>{
         el.classList.remove("active");
     })
 }
-window.addEventListener("DOMContentLoaded",async (e) =>{
-    await updateDashboard();
-})
+window.addEventListener("DOMContentLoaded", async (e) => {
+    const path = window.location.pathname;
+    console.log("DOMContentLoaded, path:", path);
+
+    // Ensure sidebar buttons exist before trying to click them
+    // This assumes dashboard.html always loads the full sidebar structure initially
+    if (path === "/profile" || path.startsWith("/profile")) {
+        if (profile) profile.click(); 
+        else await updateDashboard(); // Fallback if profile button not found (e.g. direct nav to /profile)
+    } else if (path === "/courses" || path.startsWith("/courses")) {
+        if (tm) tm.click();
+        else await updateDashboard(); 
+    } else if (path === "/progress" || path.startsWith("/progress")) {
+        if (progress) progress.click();
+        else await updateDashboard(); 
+    } else if (path === "/support" || path.startsWith("/support")) {
+        if (support) support.click();
+        else await updateDashboard(); 
+    } else { // Default to dashboard for "/", "/dashboard", or any other path
+        await updateDashboard();
+    }
+});
+
 const updateDashboard = async () => {
-        clearActiveClass();
+    clearActiveClass();
     document.querySelector(".dashboard").classList.add("active");
     const content = document.querySelector(".main-content-area main");
     content.classList.remove("cardContainer");
     content.classList.remove("course-content")
     content.classList.add("content")
     content.innerHTML = shome;
-    const details = (await AccountInfo(getUser())).result;
+    
+    const userEmail = getUser();
+    console.log("User from sessionStorage:", userEmail);
+    const detailsObject = await AccountInfo(userEmail);
+    console.log("AccountInfo detailsObject:", detailsObject);
+
     const mcompleted = document.querySelector("#modules-completed");
     const avg = document.querySelector("#average-score");
-    mcompleted.textContent = details.mcompleted;
-    avg.textContent = details.avgscore + "%";
-    logout();
+
+    if (detailsObject && detailsObject.result && typeof detailsObject.result === 'object') {
+        const accountData = detailsObject.result;
+        mcompleted.textContent = accountData.mcompleted !== undefined ? accountData.mcompleted : 'N/A';
+        avg.textContent = accountData.avgscore !== undefined ? accountData.avgscore + "%" : "N/A%";
+    } else {
+        console.error("Failed to fetch or parse account info. Response:", detailsObject);
+        mcompleted.textContent = 'N/A';
+        avg.textContent = "N/A%";
+    }
+    // logout(); // Temporarily commented out - seems problematic here
     history.pushState({}, "", "dashboard");
 }
 dashboard.addEventListener("click", async (e) =>{
@@ -203,3 +236,39 @@ const showCourse = async (courseTitle) => {
     parent.appendChild(content);
 
 }
+
+progress.addEventListener("click", async (e) => {
+    e.preventDefault();
+    clearActiveClass();
+    document.querySelector(".progress").classList.add("active");
+    const parent = document.querySelector(".main-content-area");
+    const tempContent = document.querySelector(".main-content-area main");
+    if (tempContent) {
+        parent.removeChild(tempContent);
+    }
+
+    const content = document.createElement("main");
+    content.classList.add("content");
+    content.innerHTML = sprogress;
+    parent.appendChild(content);
+    logout();
+    history.pushState({}, "", "progress");
+});
+
+support.addEventListener("click", async (e) => {
+    e.preventDefault();
+    clearActiveClass();
+    document.querySelector(".support").classList.add("active");
+    const parent = document.querySelector(".main-content-area");
+    const tempContent = document.querySelector(".main-content-area main");
+    if (tempContent) {
+        parent.removeChild(tempContent);
+    }
+
+    const content = document.createElement("main");
+    content.classList.add("content");
+    content.innerHTML = ssupport;
+    parent.appendChild(content);
+    logout();
+    history.pushState({}, "", "support");
+});

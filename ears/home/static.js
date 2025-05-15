@@ -55,7 +55,22 @@ export const modules =
                 </div>
             </main>`
 
+export const sprogress = `
+    <h1>My Progress</h1>
+    <section id="progress-details">
+        <p>Loading progress details...</p>
+        <!-- Detailed list or charts will go here -->
+    </section>
+`;
 
+export const ssupport = `
+    <h1>Support</h1>
+    <section id="support-content">
+        <p>Welcome to the EARS support page.</p>
+        <p>Contact us at support@ears.example.com for assistance.</p>
+        <!-- FAQs or contact form can go here -->
+    </section>
+`;
 
         // const module = {
         //     body:"Module Empty..."
