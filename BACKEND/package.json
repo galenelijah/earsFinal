@@ -16,5 +16,9 @@
     "dev": "nodemon app.js",
     "build": "npm install && echo 'Build completed'",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
   }
 }
