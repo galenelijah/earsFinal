@@ -23,6 +23,7 @@ const run = async () => {
 }
 
 const getDB = ()=>{
+    console.log("getDB called. Returning db instance:", db ? "db object" : "undefined/null");
     return db;
 }
 module.exports = {run, getDB};
