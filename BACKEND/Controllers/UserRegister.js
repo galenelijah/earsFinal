@@ -15,15 +15,12 @@ const { getDB } = require("../database");
             // Problem: Multiple users can register with the same email or username.
             db.collection('users').createIndex({ email: 1 }, { unique: true });
             try {
-                
-                const query = {
-                    email: { $eq: req.body.email},
-                    password: { $eq: req.body.password  },
-                    name: {$eq: req.body.name}
+                const user = {
+                    email: req.body.email,
+                    password: req.body.password,
+                    name: req.body.name
                 };
-                const result = await db
-                    .collection('users')
-                    .insertOne(query);
+                const result = await db.collection('users').insertOne(user);
                 if(result.acknowledged){
                     res.status(200).json("User Succesfully Made");
                 }else {
