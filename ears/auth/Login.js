@@ -1,4 +1,3 @@
-
 import { CheckLogin } from "../Utilities/api.js";
 
 const form = document.getElementById("login-form");
@@ -29,6 +28,10 @@ const now = new Date().getTime(); // milliseconds
 const expiresAt = now + durationMinutes * 60 * 1000;
 
     sessionStorage.setItem("user", data.email);
+
+    // Set the logged-in flag
+    sessionStorage.setItem('isUserLoggedIn', 'true');
+
     setTimeout(() => {
       window.location.href = "../home/dashboard.html"
   }, 2000);
