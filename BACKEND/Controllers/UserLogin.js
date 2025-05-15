@@ -11,15 +11,19 @@ const { getDB } = require("../database");
                 return res.status(500).json({ message: "Database connection error. DB not initialized." });
             }
 
+            console.log("Login attempt with email:", req.body.email);
+            console.log("Login attempt with password:", req.body.password);
+
             const query = {
-                email: { $eq: req.body.email},
-                password: { $eq: req.body.password  }
+                email: req.body.email,
+                password: req.body.password
             };
             const result = await db
                 .collection('users')
                 .find(query)
                 .toArray();
-                console.log(result.length);
+            console.log("Login query result length:", result.length);
+
             if(result.length >0){
                 res.status(200).json("Account Authorized");
             }else {
