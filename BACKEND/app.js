@@ -1,31 +1,45 @@
 require("dotenv").config();
 const cors = require("cors");
-const express= require('express');
-const {run} = require("./database");
-const {userRouter} = require("./Routers/UserRouters");
+const express = require('express');
+const { run } = require("./database"); 
+const { userRouter } = require("./Routers/UserRouters");
 const { InfoRouter } = require("./Routers/InfoRouters");
 const path = require('path');
+
 const app = express();
 const PORT = process.env.PORT || 8080;
-run().catch(console.dir);
 
-app.use(cors({ // Replace with your frontend domain
+// Function to start the server
+const startServer = () => {
+  app.use(cors({ 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true }));
+  app.use(express.json()); 
+  app.use(express.urlencoded({ extended: true }));
 
-app.use("/ears", userRouter);
-app.use("/ears", InfoRouter);
-app.use(express.static(path.join(__dirname, '../ears')));
+  app.use("/ears", userRouter);
+  app.use("/ears", InfoRouter);
+  
+  app.use(express.static(path.join(__dirname, '../ears')));
 
-// Catch-all for client-side routing: serves dashboard.html for any GET request
-// that doesn't match an API route (like /ears/...) or an existing static file.
-app.get(/^\/(?!ears\/?).*$/, (req, res) => { // Excludes /ears and /ears/* from this catch-all
-  res.sendFile(path.join(__dirname, '../ears/home/dashboard.html'));
-});
+  app.get(/^\/(?!ears\/?).*$/, (req, res) => { 
+    res.sendFile(path.join(__dirname, '../ears/home/dashboard.html'));
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`Server listening on port http://localhost:${PORT}`);
+    console.log("Application is ready.");
+  });
+};
 
-app.listen(PORT, () => {
-    console.log(`listening on port http://localhost:${PORT}`)
-})
+// Connect to DB and then start server
+run()
+  .then(() => {
+    console.log("Database connected successfully.");
+    startServer(); 
+  })
+  .catch(err => {
+    console.error("Failed to connect to the database. Server not started.", err);
+    process.exit(1); 
+  });
