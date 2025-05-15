@@ -1,0 +1,14 @@
+{
+  "name": "ears-heroku-runner",
+  "version": "1.0.0",
+  "description": "Runner for EARS Heroku deployment",
+  "main": "BACKEND/app.js",
+  "scripts": {
+    "start": "cd BACKEND && npm start",
+    "heroku-postbuild": "cd BACKEND && npm install --omit=dev"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
+  }
+} 
