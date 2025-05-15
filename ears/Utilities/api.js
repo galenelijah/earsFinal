@@ -1,4 +1,4 @@
-const HOST = "http://localhost:3000";
+const HOST = "";
 
 export const CheckLogin = async (user) =>{
   const details ={};
