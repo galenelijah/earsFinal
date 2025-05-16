@@ -1100,83 +1100,84 @@ a.button:hover {
 
 
 .course-content {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
+    padding: 2rem;
 }
 
-.module_header{
-    background-color: rgba(95, 72, 72, 0.329);
-    min-height: 10vh;
-    height: 10vh;
-    width: 50rem;
-    border-width: 1.5px;
-    border-style: solid;
-    border-color: #333;
-    border-color: rgba(128, 128, 128, 0.192);
-}
-.module_card {
-    background-color: #F2F2F2;
-    min-height: 10vh;
-    height: 10vh;
-    width: 50rem;
-    border-width: 1.5px;
-    display: flex;
-    justify-content:start;
-    border-style: solid;
-    border-color: rgba(128, 128, 128, 0.192);
+.course-content .course-main-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #eee;
 }
 
-.module_card h4:hover{
-    color: blue;
-    cursor: grab;
-    text-decoration: underline;
+.course-content h2.posh1, 
+.course-content h2.marginh1 {
+    font-size: 1.5rem;
+    color: #444;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
 }
-.module_card h4 {
-    margin: 10px;
+
+/* Grid layout for modules and quizzes within a course */
+.course-content .modules-grid-container,
+.course-content .quizzes-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 1.5rem; /* Spacing between items */
+    margin-bottom: 2rem;
 }
-.marginh1{
-    margin-top: 5rem;
-     width: 50rem;
+
+/* Styling for individual module cards within the course details view */
+.course-content .module_card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease-in-out;
 }
-.posh1{
-    width: 50rem;
+
+.course-content .module_card:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
-.quiz_header{
-    background-color: rgba(95, 72, 72, 0.329);
-    min-height: 10vh;
-    height: 10vh;
-    width: 50rem;
-    border-width: 1.5px;
-    border-style: solid;
-    border-color: #333;
-    border-radius: none;
-    border-color: rgba(128, 128, 128, 0.192);
+
+.course-content .module_card h4 {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0;
 }
-.quiz_card {
-    background-color: #F2F2F2;
-    min-height: 10vh;
-    height: 10vh;
-    width: 50rem;
-    border-width: 1.5px;
-    display: flex;
-    justify-content:space-between;
-    border-style: solid;
-    border-color: rgba(128, 128, 128, 0.192);
+
+/* Styling for individual quiz cards within the course details view */
+.course-content .quiz_card {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease-in-out;
 }
-.quiz_card h4 {
-    margin: 10px;
+
+.course-content .quiz_card:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
-.quiz_card h4:hover{
-    color: blue;
-    cursor: grab;
-    text-decoration: underline;
+
+.course-content .quiz_card h4 {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
 }
-.quiz_card p {
-    margin: 10px;
-    position: relative;
+
+.course-content .quiz_card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0;
 }
+
+/* Ensure no conflicting global styles for these cards when inside course-content */
+
 
 /* Profile Page Styles */
 .profile-container {
@@ -1473,4 +1474,528 @@ a.button:hover {
         width: 100%;
         justify-content: center;
     }
+}
+
+/* === Course Details View (showCourse) === */
+.course-content {
+    padding: 2rem; /* Add padding to the main content area for this view */
+}
+
+.course-content .course-main-title {
+    font-size: 2rem; /* Larger title for the course */
+    color: #333;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #eee;
+}
+
+.course-content h2.posh1, 
+.course-content h2.marginh1 {
+    font-size: 1.5rem; /* Sub-headings for "Modules" and "Assessments" */
+    color: #444;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Grid layout for modules and quizzes within a specific course view */
+.course-content .modules-grid-container,
+.course-content .quizzes-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly smaller min for items */
+    gap: 1rem; /* Adjust gap */
+    margin-bottom: 2rem;
+}
+
+/* Specific styling for module cards *inside* the .course-content view */
+.course-content .module_card {
+    background-color: #fff; /* Keep distinct background */
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease-in-out;
+    /* Override general .module_card styles if they conflict */
+    width: auto; /* Allow grid to control width */
+    height: auto; /* Allow content to define height */
+    margin: 0; /* Remove margin if globally set for .module_card */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Reset box-shadow if needed */
+    display: block; /* Or flex, depending on desired inner layout */
+    justify-content: flex-start; /* Reset from global if it was center */
+}
+
+.course-content .module_card:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.course-content .module_card h4 {
+    font-size: 1.05rem;
+    color: #333;
+    margin: 0;
+}
+
+/* Specific styling for quiz cards *inside* the .course-content view */
+.course-content .quiz_card {
+    background-color: #f9f9f9;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease-in-out;
+    width: auto; /* Allow grid to control width */
+    height: auto; /* Allow content to define height */
+    margin: 0; /* Remove margin if globally set for .quiz_card */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Reset box-shadow if needed */
+    display: block; /* Or flex, depending on desired inner layout */
+    justify-content: space-between; /* Reset from global if needed */
+}
+
+.course-content .quiz_card:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.course-content .quiz_card h4 {
+    font-size: 1.05rem;
+    color: #333;
+    margin-bottom: 0.4rem;
+}
+
+.course-content .quiz_card p {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.loading-indicator::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 1rem auto;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Course Header */
+.course-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.course-description {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    line-height: 1.6;
+}
+
+/* Module Cards */
+.module-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.module-number {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.module-description {
+    color: #666;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.module-status {
+    margin-top: 1rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.status-completed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-in-progress {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.status-not-started {
+    background-color: #f5f5f5;
+    color: #616161;
+}
+
+/* Back Button */
+.back-button {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+/* Error Message */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    background-color: #fdecea;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+.error-message h2 {
+    color: #c0392b;
+    margin-bottom: 1rem;
+}
+
+.error-message p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.error-message .back-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.error-message .back-button:hover {
+    background-color: #c0392b;
+}
+
+/* No Modules Message */
+.no-modules-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .module-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .back-button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Module Content Styles */
+.module-content-section {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.module-content-section h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.module-content-section h3 {
+    color: #34495e;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem;
+}
+
+.module-content-section h4 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin: 1.5rem 0 0.5rem;
+}
+
+.module-content-section p {
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.module-content-section ul {
+    list-style-type: disc;
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.module-content-section li {
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.content-block {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.summary-section {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: #e8f4fc;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.summary-section h3 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+/* Module Status Indicators */
+.module-status {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.status-completed {
+    background-color: #27ae60;
+    color: white;
+}
+
+.status-in-progress {
+    background-color: #f39c12;
+    color: white;
+}
+
+.status-not-started {
+    background-color: #95a5a6;
+    color: white;
+}
+
+/* Module Navigation */
+.module-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    margin-top: 2rem;
+}
+
+.nav-button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    background: white;
+    color: #3498db;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover:not(:disabled) {
+    background: #3498db;
+    color: white;
+}
+
+.nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Module Progress Bar */
+.module-progress-bar {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.progress-bar {
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #3498db;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #444;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Module Actions */
+#module-actions {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-right: 1rem;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-secondary {
+    background: white;
+    color: #3498db;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #3498db;
+    color: white;
+}
+
+#quiz-status {
+    margin-top: 1rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* Error Message Styles */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    background: #fee;
+    border-radius: 8px;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.error-message h2 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+}
+
+.error-message p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.back-button {
+    background: #e74c3c;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: #c0392b;
+}
+
+/* Success Message Styles */
+.success-message {
+    text-align: center;
+    padding: 2rem;
+    background: #e8f5e9;
+    border-radius: 8px;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.success-message h2 {
+    color: #27ae60;
+    margin-bottom: 1rem;
+}
+
+.success-message p {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.success-message .module-navigation {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.success-message .nav-button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.success-message .nav-button:hover {
+    background: #219a52;
 }

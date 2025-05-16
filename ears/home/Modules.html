@@ -7,29 +7,93 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header class="dashboard-header">
-        <h1 id="module-title">Loading Module...</h1>
-        <nav>
-            <a href="/home/Home.html">Back to Dashboard</a>
-            <button id="logout-button">Logout</button>
-        </nav>
-    </header>
-
-    <main class="module-container">
-        <section id="module-content-area">
-            <h2 id="content-title">Content</h2>
-            <div id="module-content-display">
-                <p>Loading content...</p>
+    <div class="employee-dashboard-layout">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>EARS Training</h2>
             </div>
-        </section>
-        
-        <section id="module-actions">
-            <a href="#" id="take-quiz-link" class="button" style="display: none;">Take Quiz</a>
-        </section>
-    </main>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="dashboard">
+                        <button class="nav-button">
+                            <i class="fas fa-home"></i>Dashboard
+                        </button>
+                    </li>
+                    <li class="training-modules active">
+                        <button class="nav-button">
+                            <i class="fas fa-book"></i>Training Modules
+                        </button>
+                    </li>
+                    <li class="profile">
+                        <button class="nav-button">
+                            <i class="fas fa-user"></i>Profile
+                        </button>
+                    </li>
+                    <li class="progress">
+                        <button class="nav-button">
+                            <i class="fas fa-chart-line"></i>Progress
+                        </button>
+                    </li>
+                    <li class="support">
+                        <button class="nav-button">
+                            <i class="fas fa-question-circle"></i>Support
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-    <footer>
-        <p>&copy; 2025 EARS</p>
-    </footer>
+        <div class="main-content-area">
+            <header class="main-header">
+                <div class="user-info">
+                    <span id="user-role">Employee</span>
+                    <button id="logout-button">Logout</button>
+                </div>
+            </header>
+
+            <main class="module-container">
+                <section id="module-content-area">
+                    <div class="module-header">
+                        <h1 id="module-title">Loading Module...</h1>
+                        <div class="module-meta">
+                            <span id="module-number"></span>
+                            <span id="module-status" class="module-status"></span>
+                        </div>
+                    </div>
+
+                    <div class="module-progress-bar">
+                        <div class="progress-bar">
+                            <div id="module-progress" class="progress-fill"></div>
+                            <span class="progress-text">0% Complete</span>
+                        </div>
+                    </div>
+
+                    <div id="module-content-display">
+                        <div class="loading-indicator">Loading content...</div>
+                    </div>
+
+                    <div id="module-actions">
+                        <button id="mark-complete" class="btn-primary" style="display: none;">Mark as Complete</button>
+                        <a href="#" id="take-quiz-link" class="btn-secondary" style="display: none;">Take Quiz</a>
+                        <p id="quiz-status"></p>
+                    </div>
+                </section>
+
+                <div class="module-navigation">
+                    <button id="prev-module" class="nav-button" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous Module
+                    </button>
+                    <button id="back-to-course" class="nav-button">
+                        <i class="fas fa-th-list"></i> Back to Course
+                    </button>
+                    <button id="next-module" class="nav-button" disabled>
+                        Next Module <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="/home/module.js"></script>
 </body>
 </html>     

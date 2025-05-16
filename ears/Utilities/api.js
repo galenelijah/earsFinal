@@ -58,25 +58,41 @@ export const RegisterAccount = async (user) =>{
   return details;
 }
 
-export const AccountInfo = async (user) =>{
-    const details ={};
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
- 
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow"
-  };
-  try {
-    const response = await fetch(`${HOST}/ears/info?email=${user}`, requestOptions);
-    details.result = await response.json();
-  } catch (error) {
-    details.result = 0
-  }
+export const AccountInfo = async (user) => {
+    const details = {};
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+   
+    const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
 
-  return details;
-}
+    try {
+        // For development, return static content
+        details.result = {
+            email: user,
+            name: "John Doe",
+            role: "Employee",
+            department: "Engineering",
+            mcompleted: 1,
+            avgscore: 85,
+            courses: [
+                {
+                    title: "Introduction to Computer Science",
+                    progress: 30,
+                    completed_modules: 1,
+                    total_modules: 3
+                }
+            ]
+        };
+        return details;
+    } catch (error) {
+        details.result = 0;
+        return details;
+    }
+};
 
 
 export const initAccount = async (user) =>{
@@ -103,32 +119,11 @@ export const initAccount = async (user) =>{
   }
 }
 
-export const GetCourse = async (user, courseTitle) =>{
-    const details ={};
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
- 
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow"
-  };
-  try {
-    const response = await fetch(`${HOST}/ears/info/course?email=${user}&courseTitle=${courseTitle}`, requestOptions);
-    details.result = await response.json();
-  } catch (error) {
-    details.result = 0
-  }
-
-  return details;
-}
-
-
-export const GetCourseList = async () => {
+export const GetCourse = async (email, courseTitle) => {
     const details = {};
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-   
+
     const requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -136,44 +131,104 @@ export const GetCourseList = async () => {
     };
 
     try {
-        const url = `${HOST}/ears/info/courselist`;
-        console.log('Fetching course list from:', url);
-        
-        const response = await fetch(url, requestOptions);
-        console.log('Course list response:', {
-            status: response.status,
-            statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries())
-        });
-        
+        // Fetch from backend
+        const response = await fetch(`${HOST}/ears/info/course?email=${encodeURIComponent(email)}&courseTitle=${encodeURIComponent(courseTitle)}`, requestOptions);
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Response not OK:', errorText);
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            const errorData = await response.json().catch(() => ({ error: response.statusText }));
+            console.error(`Error fetching course ${courseTitle}: ${response.status}`, errorData);
+            throw new Error(`Failed to load course: ${errorData.error || response.statusText}`);
         }
-        
-        const data = await response.json();
-        console.log('Course list data:', data);
-        
-        if (!data) {
-            throw new Error('No data received from server');
-        }
-        
-        // If data is empty array, that's valid
-        if (Array.isArray(data)) {
-            details.result = data;
-        } else {
-            // If data is an object with a specific structure, handle it
-            details.result = data.courses || data.result || [];
-        }
+        details.result = await response.json();
+        return details;
     } catch (error) {
-        console.error('Error fetching course list:', {
-            message: error.message,
-            stack: error.stack
-        });
-        details.result = null;
-        details.error = error.message;
+        console.error("Error in GetCourse:", error);
+        // Return a structure that the frontend can handle for errors
+        details.error = error.message || "Failed to fetch course data.";
+        details.result = null; // Ensure result is null on error
+        return details;
     }
+};
+
+export const GetCourseList = async () => {
+    const details = {};
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
+
+    try {
+        // Fetch from backend
+        const response = await fetch(`${HOST}/ears/info/courselist`, requestOptions);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: response.statusText }));
+            console.error(`Error fetching course list: ${response.status}`, errorData);
+            throw new Error(`Failed to load course list: ${errorData.error || response.statusText}`);
+        }
+        details.result = await response.json(); // Expecting an array of courses
+        return details;
+    } catch (error) {
+        console.error("Error in GetCourseList:", error);
+        details.error = error.message || "Failed to fetch course list.";
+        details.result = null; // Ensure result is null on error
+        return details;
+    }
+};
+
+export const UpdateModuleProgress = async (user, moduleId, progress) => {
+    const details = {};
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
     
-    return details;
-}
+    const raw = JSON.stringify({
+        email: user,
+        moduleId: moduleId,
+        progress: progress
+    });
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+    };
+
+    try {
+        const response = await fetch(`${HOST}/ears/progress/update`, requestOptions);
+        details.result = await response.json();
+        return details;
+    } catch (error) {
+        details.result = 0;
+        return details;
+    }
+};
+
+export const MarkModuleComplete = async (user, moduleId) => {
+    const details = {};
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    const raw = JSON.stringify({
+        email: user,
+        moduleId: moduleId
+    });
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+    };
+
+    try {
+        const response = await fetch(`${HOST}/ears/progress/complete`, requestOptions);
+        details.result = await response.json();
+        return details;
+    } catch (error) {
+        details.result = 0;
+        return details;
+    }
+};

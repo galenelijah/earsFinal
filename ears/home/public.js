@@ -138,124 +138,226 @@ profile.addEventListener("click", async (e) =>{
                     </div>
                 </div>
             </main>*/
+
+// Reverted Training Modules click listener
 tm.addEventListener("click", async (e) => {
     e.preventDefault();
     clearActiveClass();
     document.querySelector(".training-modules").classList.add("active");
 
-    try {
-        // Load training-modules.html content
-        const response = await fetch('/home/training-modules.html');
-        if (!response.ok) throw new Error('Failed to load Training Modules page');
-        const html = await response.text();
-        
-        // Create a temporary div to parse the HTML
-        const temp = document.createElement('div');
-        temp.innerHTML = html;
-        
-        // Extract the main content
-        const newContent = temp.querySelector('.main-content-area main');
-        
-        // Replace the existing content
-        const parent = document.querySelector(".main-content-area");
-        const oldContent = parent.querySelector("main");
-        if (oldContent) {
-            parent.removeChild(oldContent);
-        }
-        
-        parent.appendChild(newContent);
-        
-        // Add CSS file
-        if (!document.querySelector('link[href="/css/training-modules.css"]')) {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = '/css/training-modules.css';
-            document.head.appendChild(link);
-        }
-        
-        // Initialize the training modules page
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = '/home/training-modules.js';
-        document.body.appendChild(script);
-    } catch (error) {
-        console.error('Error loading Training Modules page:', error);
-        const parent = document.querySelector(".main-content-area");
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.textContent = 'Failed to load Training Modules. Please try again later.';
-        parent.appendChild(errorDiv);
+    const mainContentArea = document.querySelector(".main-content-area");
+    const oldMainElement = mainContentArea.querySelector("main");
+    if (oldMainElement) {
+        mainContentArea.removeChild(oldMainElement);
     }
-    
-    logout();
-    history.pushState({}, "", "courses");
+
+    const newMainElement = document.createElement("main");
+    newMainElement.classList.add("content", "cardContainer"); // Ensure styling for cards
+
+    try {
+        const coursesResponse = await GetCourseList();
+        if (coursesResponse && coursesResponse.result && Array.isArray(coursesResponse.result)) {
+            if (coursesResponse.result.length === 0) {
+                newMainElement.innerHTML = "<p>No training modules available at the moment.</p>";
+            } else {
+                coursesResponse.result.forEach(course => {
+                    const card = document.createElement("div");
+                    card.classList.add("card"); // Class for styling individual course cards
+
+                    const cardContent = document.createElement("div");
+                    cardContent.classList.add("card-content");
+
+                    const title = document.createElement("h1");
+                    title.textContent = course.title;
+
+                    // Add more course details if available and desired, e.g., description
+                    // const description = document.createElement("p");
+                    // description.textContent = course.description || "No description available.";
+                    // cardContent.appendChild(description);
+
+                    cardContent.appendChild(title);
+                    card.appendChild(cardContent);
+
+                    card.addEventListener("click", () => {
+                        showCourse(course.title);
+                    });
+                    newMainElement.appendChild(card);
+                });
+            }
+        } else {
+            console.error("Failed to load courses or invalid format:", coursesResponse);
+            newMainElement.innerHTML = "<p>Error loading training modules. Please try again.</p>";
+             if (coursesResponse && coursesResponse.error) {
+                newMainElement.innerHTML += `<p>Details: ${coursesResponse.error}</p>`;
+            }
+        }
+    } catch (error) {
+        console.error("Error in Training Modules click listener:", error);
+        newMainElement.innerHTML = "<p>An unexpected error occurred. Please try again.</p>";
+    }
+
+    mainContentArea.appendChild(newMainElement);
+    logout(); // This matches the previous behavior, review if logout button needs re-init
+    history.pushState({}, "", "/home/courses"); // New absolute path
 });
 
-/*
-            <main class="content   course-content">
-                <h1 class="posh1">Modules</h1>
-                <div class="module_header"></div>
-                <div class="module_card"></div>
-                <h1 class="marginh1">Assessments</h1>
-                <div class="quiz_header"></div>
-                <div class="quiz_card"></div>
-            </main>
-            
-*/
+// Restored showCourse function
 const showCourse = async (courseTitle) => {
-    const info = await GetCourse(getUser(), courseTitle);
-    console.log(info)
-    const parent =  document.querySelector('.main-content-area');
-    const oldContent = document.querySelector(".main-content-area main");
-    if (oldContent) {
-        parent.removeChild(oldContent);
-    }   
-    const content = document.createElement("main");
-    content.classList.add("course-content");
+    clearActiveClass();
+    document.querySelector(".training-modules").classList.add("active");
 
-    const moduleTitle = document.createElement("h1");
-    moduleTitle.textContent = "Modules";
-    moduleTitle.classList.add("posh1")
-    const moduleHeader = document.createElement("div");
-    moduleHeader.classList.add("module_header");
-    content.appendChild(moduleTitle);
-    content.appendChild(moduleHeader);
-
-     const mLength = info.result.modules.length;
-    for(let i = 0 ; i < mLength; i++){
-        const mCard = document.createElement("div");
-        const title = document.createElement("h4");
-        mCard.classList.add("module_card");
-        title.textContent = info.result.modules[i].title
-        mCard.appendChild(title);
-        content.appendChild(mCard);
-    }
-    const quizTitle = document.createElement("h1");
-    quizTitle.textContent = "Assessments";
-    quizTitle.classList.add("marginh1");
-    const quizHeader = document.createElement("div");
-    quizHeader.classList.add("quiz_header");
-    content.appendChild(quizTitle);
-    content.appendChild(quizHeader);
-
-    const qLength = info.result.quizzes.length;
-    for(let i = 0 ; i < qLength; i++){
-        const qCard = document.createElement("div");
-        const title = document.createElement("h4");
-        const score = document.createElement("p");
-        qCard.classList.add("quiz_card");
-        title.textContent = info.result.modules[i].title;
-        const nscore =info.result.quizzes[i].score;
-        const maxScore = info.result.quizzes[i].maxScore;
-        score.textContent = nscore > 0 ? `Score: ${nscore}/${maxScore}`: `Score: ${maxScore}/${maxScore}`
-        qCard.appendChild(title);
-        qCard.append(score);
-        content.appendChild(qCard);
+    const mainContentArea = document.querySelector('.main-content-area');
+    const oldMainElement = mainContentArea.querySelector("main");
+    if (oldMainElement) {
+        mainContentArea.removeChild(oldMainElement);
     }
 
-    parent.appendChild(content);
+    const newMainElement = document.createElement("main");
+    newMainElement.classList.add("content", "course-content");
 
-}
+    // Add loading state
+    const loadingElement = document.createElement("div");
+    loadingElement.classList.add("loading-indicator");
+    loadingElement.textContent = "Loading course details...";
+    newMainElement.appendChild(loadingElement);
+    mainContentArea.appendChild(newMainElement);
+
+    try {
+        const userEmail = getUser();
+        const courseDetailsResponse = await GetCourse(userEmail, courseTitle);
+        
+        // Enhanced error handling for GetCourse response
+        if (!courseDetailsResponse) {
+            console.error("GetCourse returned undefined or null response");
+            throw new Error("Failed to load course details: No response from server.");
+        }
+        if (courseDetailsResponse.error) {
+            console.error("Error from GetCourse API:", courseDetailsResponse.error);
+            throw new Error(`Failed to load course details: ${courseDetailsResponse.error}`);
+        }
+        if (!courseDetailsResponse.result) {
+            console.error("GetCourse response missing 'result' field:", courseDetailsResponse);
+            throw new Error("Failed to load course details: Invalid data format from server.");
+        }
+
+        // Remove loading indicator
+        newMainElement.removeChild(loadingElement);
+
+        const courseData = courseDetailsResponse.result;
+
+        // Course Header Section
+        const courseHeader = document.createElement("div");
+        courseHeader.classList.add("course-header");
+
+        const headerTitle = document.createElement("h1");
+        headerTitle.textContent = courseData.title || courseTitle;
+        headerTitle.classList.add("course-main-title");
+        courseHeader.appendChild(headerTitle);
+
+        if (courseData.description) {
+            const description = document.createElement("p");
+            description.textContent = courseData.description;
+            description.classList.add("course-description");
+            courseHeader.appendChild(description);
+        }
+
+        newMainElement.appendChild(courseHeader);
+
+        // Modules Section
+        const modulesSection = document.createElement("div");
+        modulesSection.classList.add("modules-section");
+
+        const modulesTitle = document.createElement("h2");
+        modulesTitle.textContent = "Course Modules";
+        modulesTitle.classList.add("posh1");
+        modulesSection.appendChild(modulesTitle);
+
+        const modulesGridContainer = document.createElement("div");
+        modulesGridContainer.classList.add("modules-grid-container");
+
+        if (courseData.modules && Array.isArray(courseData.modules) && courseData.modules.length > 0) {
+            courseData.modules.forEach((module, index) => {
+                const moduleCard = document.createElement("div");
+                moduleCard.classList.add("module_card");
+
+                const moduleHeader = document.createElement("div");
+                moduleHeader.classList.add("module-header");
+
+                const moduleNumber = document.createElement("span");
+                moduleNumber.textContent = `Module ${index + 1}`;
+                moduleNumber.classList.add("module-number");
+                moduleHeader.appendChild(moduleNumber);
+
+                const moduleTitle = document.createElement("h4");
+                moduleTitle.textContent = module.title;
+                moduleHeader.appendChild(moduleTitle);
+
+                moduleCard.appendChild(moduleHeader);
+
+                if (module.description) {
+                    const moduleDesc = document.createElement("p");
+                    moduleDesc.textContent = module.description;
+                    moduleDesc.classList.add("module-description");
+                    moduleCard.appendChild(moduleDesc);
+                }
+
+                // Add status indicator if available
+                if (module.status) {
+                    const statusIndicator = document.createElement("div");
+                    statusIndicator.classList.add("module-status");
+                    statusIndicator.classList.add(`status-${module.status.toLowerCase().replace(/\s+/g, '-')}`);
+                    statusIndicator.textContent = module.status;
+                    moduleCard.appendChild(statusIndicator);
+                }
+
+                moduleCard.addEventListener("click", () => {
+                    window.location.href = `/home/Modules.html?moduleId=${module.id}&courseTitle=${encodeURIComponent(courseTitle)}`;
+                });
+
+                modulesGridContainer.appendChild(moduleCard);
+            });
+        } else {
+            const noModulesMessage = document.createElement("div");
+            noModulesMessage.classList.add("no-modules-message");
+            noModulesMessage.textContent = "No modules are currently available for this course.";
+            modulesGridContainer.appendChild(noModulesMessage);
+        }
+
+        modulesSection.appendChild(modulesGridContainer);
+        newMainElement.appendChild(modulesSection);
+
+        // Add back button
+        const backButton = document.createElement("button");
+        backButton.classList.add("back-button");
+        backButton.textContent = "Back to Courses";
+        backButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            tm.click(); // Reuse the training modules click handler
+        });
+        newMainElement.appendChild(backButton);
+
+    } catch (error) {
+        console.error("Error loading course details:", error);
+        newMainElement.innerHTML = `
+            <div class="error-message">
+                <h2>Error Loading Course</h2>
+                <p>Failed to load course details. Please try again later.</p>
+                <button class="back-button">Back to Courses</button>
+            </div>
+        `;
+        const backButton = newMainElement.querySelector(".back-button");
+        if (backButton) {
+            backButton.addEventListener("click", (e) => {
+                e.preventDefault();
+                tm.click();
+            });
+        }
+    }
+
+    // Update URL to reflect current course
+    history.pushState({}, "", `/home/courses/${encodeURIComponent(courseTitle)}`);
+    logout();
+};
 
 progress.addEventListener("click", async (e) => {
     e.preventDefault();
