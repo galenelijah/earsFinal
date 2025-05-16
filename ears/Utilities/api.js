@@ -124,22 +124,39 @@ export const GetCourse = async (user, courseTitle) =>{
 }
 
 
-export const GetCourseList = async () =>{
-    const details ={};
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
- 
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow"
-  };
-  try {
-    const response = await fetch(`${HOST}/ears/info/courselist`, requestOptions);
-    details.result = await response.json();
-  } catch (error) {
-    console.log(error);
-    details = 0;
-  }
-  return details;
+export const GetCourseList = async () => {
+    const details = {};
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+   
+    const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
+
+    try {
+        console.log('Fetching course list...');
+        const response = await fetch(`${HOST}/ears/info/courselist`, requestOptions);
+        console.log('Course list response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Course list data:', data);
+        
+        if (!data || !Array.isArray(data)) {
+            throw new Error('Invalid data format received');
+        }
+        
+        details.result = data;
+    } catch (error) {
+        console.error('Error fetching course list:', error);
+        details.result = null;
+        details.error = error.message;
+    }
+    
+    return details;
 }

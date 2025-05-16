@@ -6,58 +6,134 @@
     <title>My Progress - EARS</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Add Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="employee-dashboard-layout">
-        <aside class="sidebar">
+        <aside class="sidebar" role="navigation" aria-label="Main navigation">
             <div class="sidebar-header">
                 <img src="/assets/ears-logo.png" alt="EARS Logo" class="logo">
                 <h2>EARS</h2>
             </div>
             <nav class="sidebar-nav">
                 <ul>
-        <li>
-            <button class="nav-button dashboard" data-page="/home/Home.html"><i class="fa-solid fa-table-columns"></i> Dashboard</button>
-        </li>
-        <li>
-            <button class="nav-button profile" data-page="/home/EProfile.html"><i class="fa-solid fa-user"></i> Profile</button>
-        </li>
-        <li>
-            <button class="nav-button training-modules" data-page="/home/training-modules.html"><i class="fa-solid fa-book-open"></i> Training Modules</button>
-        </li>
-        <li>
-            <button class="nav-button assessments" data-page="/home/Assessments.html"><i class="fa-solid fa-puzzle-piece"></i> Assessments</button>
-        </li>
-        <li class="active">
-            <button class="nav-button progress" data-page="/home/Progress.html"><i class="fa-solid fa-chart-line"></i> Progress</button>
-        </li>
-        <li>
-            <button class="nav-button support" data-page="/home/Support.html"><i class="fa-solid fa-headset"></i> Support</button>
-        </li>
+                    <li>
+                        <button class="nav-button dashboard" data-page="/home/Home.html">
+                            <i class="fa-solid fa-table-columns" aria-hidden="true"></i> Dashboard
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-button profile" data-page="/home/Profile.html">
+                            <i class="fa-solid fa-user" aria-hidden="true"></i> Profile
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-button training-modules" data-page="/home/training-modules.html">
+                            <i class="fa-solid fa-book-open" aria-hidden="true"></i> Training Modules
+                        </button>
+                    </li>
+                    <li class="active">
+                        <button class="nav-button progress" data-page="/home/Progress.html" aria-current="page">
+                            <i class="fa-solid fa-chart-line" aria-hidden="true"></i> Progress
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-button support" data-page="/home/Support.html">
+                            <i class="fa-solid fa-headset" aria-hidden="true"></i> Support
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </aside>
 
         <div class="main-content-area">
             <header class="main-header">
-                 <div class="search-bar">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="search" placeholder="Search training modules...">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                    <input type="search" placeholder="Search training modules..." aria-label="Search training modules">
                 </div>
                 <div class="user-info">
-                     <i class="fa-regular fa-bell notification-icon"></i>
+                    <i class="fa-regular fa-bell notification-icon" aria-hidden="true"></i>
                     <span id="user-role">Employee</span>
-                    <i class="fa-regular fa-circle-user user-icon"></i>
-                    <button id="logout-button">Logout</button>
+                    <i class="fa-regular fa-circle-user user-icon" aria-hidden="true"></i>
+                    <button id="logout-button" aria-label="Logout">Logout</button>
                 </div>
             </header>
 
             <main class="content">
-                <h1>My Progress</h1>
-                <section id="progress-details">
-                    <p>Loading progress details...</p>
-                     <!-- Example: Detailed list or charts -->
-                </section>
+                <div class="progress-container">
+                    <h1>My Progress</h1>
+                    
+                    <!-- Overall Progress Section -->
+                    <section class="progress-overview" aria-labelledby="overview-heading">
+                        <h2 id="overview-heading">Overall Progress</h2>
+                        <div class="progress-stats">
+                            <div class="stat-card">
+                                <span class="stat-value" id="completion-rate">0%</span>
+                                <span class="stat-label">Completion Rate</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-value" id="modules-completed">0/0</span>
+                                <span class="stat-label">Modules Completed</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-value" id="average-score">0%</span>
+                                <span class="stat-label">Average Score</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Progress Chart Section -->
+                    <section class="progress-charts" aria-labelledby="charts-heading">
+                        <h2 id="charts-heading">Progress Overview</h2>
+                        <div class="charts-container">
+                            <div class="chart-wrapper">
+                                <canvas id="progressChart" aria-label="Progress Chart" role="img"></canvas>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="scoreChart" aria-label="Score Distribution" role="img"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Detailed Progress Table -->
+                    <section class="module-progress" aria-labelledby="modules-heading">
+                        <h2 id="modules-heading">Module Details</h2>
+                        <div class="table-controls">
+                            <div class="filter-group">
+                                <label for="status-filter">Filter by Status:</label>
+                                <select id="status-filter">
+                                    <option value="all">All</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="not-started">Not Started</option>
+                                </select>
+                            </div>
+                            <button id="download-progress" class="btn-secondary">
+                                <i class="fa-solid fa-download" aria-hidden="true"></i> Download Report
+                            </button>
+                        </div>
+                        <div class="table-container">
+                            <table class="progress-table" aria-label="Module Progress Details">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Module Name</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Progress</th>
+                                        <th scope="col">Score</th>
+                                        <th scope="col">Last Activity</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="progress-table-body">
+                                    <tr>
+                                        <td colspan="5" class="loading-message">Loading module details...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
             </main>
 
             <footer>
@@ -65,5 +141,9 @@
             </footer>
         </div>
     </div>
+
+    <script type="module" src="/home/public.js"></script>
+    <script type="module" src="/home/logout.js"></script>
+    <script type="module" src="/home/progress.js"></script>
 </body>
 </html> 

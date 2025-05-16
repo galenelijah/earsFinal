@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User Profile - EARS</title>
+  <script>
+    if (sessionStorage.getItem('isUserLoggedIn') !== 'true') {
+      window.location.href = '/auth/login.html';
+    }
+  </script>
   <link rel="stylesheet" href="/css/style.css"/>
   <link
     rel="stylesheet"
@@ -15,31 +20,28 @@
 </head>
 <body>
   <div class="employee-dashboard-layout">
-    <aside class="sidebar">
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
       <div class="sidebar-header">
         <img src="/assets/ears-logo.png" alt="EARS Logo" class="logo" />
         <h2>EARS</h2>
       </div>
       <nav class="sidebar-nav">
         <ul>
-        <li>
-            <button class="nav-button dashboard"  data-page="Home.html"><i class="fa-solid fa-table-columns"></i> Dashboard</button>
-        </li>
-        <li  class="active">
-            <button class="nav-button profile" data-page="EProfile.html"><i class="fa-solid fa-user"></i> Profile</button>
-        </li>
-        <li>
-            <button class="nav-button training-modules" data-page="training-modules.html"><i class="fa-solid fa-book-open"></i> Training Modules</button>
-        </li>
-        <li>
-            <button class="nav-button assessments" data-page="Assessments.html"><i class="fa-solid fa-puzzle-piece"></i> Assessments</button>
-        </li>
-        <li>
-            <button class="nav-button progress" data-page="Progress.html"><i class="fa-solid fa-chart-line"></i> Progress</button>
-        </li>
-        <li>
-            <button class="nav-button support" data-page="Support.html"><i class="fa-solid fa-headset"></i> Support</button>
-        </li>
+          <li class="dashboard">
+            <button class="nav-button" data-page="Home.html"><i class="fa-solid fa-table-columns" aria-hidden="true"></i> Dashboard</button>
+          </li>
+          <li class="profile active">
+            <button class="nav-button" data-page="Profile.html" aria-current="page"><i class="fa-solid fa-user" aria-hidden="true"></i> Profile</button>
+          </li>
+          <li class="training-modules">
+            <button class="nav-button" data-page="training-modules.html"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Training Modules</button>
+          </li>
+          <li class="progress">
+            <button class="nav-button" data-page="Progress.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Progress</button>
+          </li>
+          <li class="support">
+            <button class="nav-button" data-page="Support.html"><i class="fa-solid fa-headset" aria-hidden="true"></i> Support</button>
+          </li>
         </ul>
       </nav>
     </aside>
@@ -47,31 +49,34 @@
     <div class="main-content-area">
       <header class="main-header">
         <div class="search-bar">
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="search" placeholder="Search training modules and assessments" />
+          <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+          <input type="search" placeholder="Search training modules and assessments" aria-label="Search training modules and assessments" />
         </div>
         <div class="user-info">
-          <i class="fa-regular fa-bell notification-icon"></i>
+          <i class="fa-regular fa-bell notification-icon" aria-hidden="true"></i>
           <span id="user-role">Employee</span>
-          <i class="fa-regular fa-circle-user user-icon"></i>
-          <button id="logout-button">Logout</button>
+          <i class="fa-regular fa-circle-user user-icon" aria-hidden="true"></i>
+          <button id="logout-button" aria-label="Logout">Logout</button>
         </div>
       </header>
 
       <main class="content">
-        <h1>User Profile</h1>
-
-        <section class="profile-section">
-          <div class="profile-card">
-            <h2>Account Information</h2>
-            <div class="profile-info">
-              <p id="name"><strong>Name:</strong> John</p>
-              <p id="email"><strong>Email:</strong> 23101961@usc.edu.ph</p>
-              <p id="gender"><strong>Gender:</strong> Male</p>
-              <p id="address"><strong>Address:</strong> Mactan Plains Residences</p>
+        <div class="profile-container">
+          <h1>User Profile</h1>
+          <div id="message" class="message" style="display: none;"></div>
+          
+          <form id="profile-form" class="auth-form">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required>
             </div>
-          </div>
-        </section>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn">Update Profile</button>
+          </form>
+        </div>
       </main>
 
       <footer>
@@ -79,6 +84,9 @@
       </footer>
     </div>
   </div>
-<script type="module" src="/home/General.js"></script>
+
+  <script type="module" src="/home/public.js"></script>
+  <script type="module" src="/home/logout.js"></script>
+  <script type="module" src="/home/profile.js"></script>
 </body>
 </html>

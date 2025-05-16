@@ -80,34 +80,40 @@ profile.addEventListener("click", async (e) =>{
     e.preventDefault();
     clearActiveClass();
     document.querySelector(".profile").classList.add("active");
-    const parent = document.querySelector(".main-content-area")
-    const tempContent = document.querySelector(".main-content-area main");
-    if(tempContent){
-        parent.removeChild(tempContent);
-    }
-
-    const content = document.createElement("main");
-    content.classList.add("content");
-    content.innerHTML = sprofile;
-    parent.appendChild(content)
-    const details = (await AccountInfo(getUser())).result;
-    const obj = {
-        name:"",email:"", gender:"",address:""
-    }
-    for(const key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            const doc = document.querySelector(`#${key}`);
-            doc.innerHTML = "";
-            const str =document.createElement("strong");
-            str.textContent = `${key.toUpperCase()}: `; 
-            doc.appendChild(str);
-            doc.innerHTML += `${details[key]}`
-            
+    
+    // Fetch the Profile.html content
+    try {
+        const response = await fetch('/home/Profile.html');
+        if (!response.ok) throw new Error('Failed to load Profile page');
+        const html = await response.text();
+        
+        // Create a temporary div to parse the HTML
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        
+        // Extract the main content
+        const newContent = temp.querySelector('.main-content-area main');
+        
+        // Replace the existing content
+        const parent = document.querySelector(".main-content-area");
+        const oldContent = parent.querySelector("main");
+        if (oldContent) {
+            parent.removeChild(oldContent);
         }
+        
+        parent.appendChild(newContent);
+        
+        // Initialize the profile page
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = '/home/profile.js';
+        document.body.appendChild(script);
+    } catch (error) {
+        console.error('Error loading Profile page:', error);
     }
-        logout();
-        history.pushState({}, "", "profile");
-
+    
+    logout();
+    history.pushState({}, "", "profile");
 })
 
 
@@ -132,44 +138,58 @@ profile.addEventListener("click", async (e) =>{
                     </div>
                 </div>
             </main>*/
-tm.addEventListener("click", async (e) =>{
-    e.preventDefault()
+tm.addEventListener("click", async (e) => {
+    e.preventDefault();
     clearActiveClass();
     document.querySelector(".training-modules").classList.add("active");
 
-    const courses = await GetCourseList();
-    const parent =  document.querySelector('.main-content-area');
-     const oldContent = document.querySelector(".main-content-area main");
-    if (oldContent) {
-        parent.removeChild(oldContent);
-    }   
-    const cardContainer = document.createElement("main");
-    cardContainer.classList.add("content");
-    cardContainer.classList.add("cardContainer");
-
-    for (let index = 0; index < courses.result.length; index++) {
+    try {
+        // Load training-modules.html content
+        const response = await fetch('/home/training-modules.html');
+        if (!response.ok) throw new Error('Failed to load Training Modules page');
+        const html = await response.text();
         
-        const card = document.createElement("div");
-        const cardContent = document.createElement("div");
-        const title = document.createElement("h1");
-    
-        card.classList.add("card");
-        cardContent.classList.add("card-content");
-        const courseTitle = courses.result[index].title;
-        title.textContent = courseTitle
-        card.appendChild(cardContent);
-        cardContent.appendChild(title);
+        // Create a temporary div to parse the HTML
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
         
-        cardContainer.appendChild(card);
-        card.addEventListener("click", (e) =>{
-            showCourse(courseTitle);
-        })
+        // Extract the main content
+        const newContent = temp.querySelector('.main-content-area main');
+        
+        // Replace the existing content
+        const parent = document.querySelector(".main-content-area");
+        const oldContent = parent.querySelector("main");
+        if (oldContent) {
+            parent.removeChild(oldContent);
+        }
+        
+        parent.appendChild(newContent);
+        
+        // Add CSS file
+        if (!document.querySelector('link[href="/css/training-modules.css"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '/css/training-modules.css';
+            document.head.appendChild(link);
+        }
+        
+        // Initialize the training modules page
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = '/home/training-modules.js';
+        document.body.appendChild(script);
+    } catch (error) {
+        console.error('Error loading Training Modules page:', error);
+        const parent = document.querySelector(".main-content-area");
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = 'Failed to load Training Modules. Please try again later.';
+        parent.appendChild(errorDiv);
     }
-
-    parent.appendChild(cardContainer);
+    
     logout();
     history.pushState({}, "", "courses");
-})
+});
 
 /*
             <main class="content   course-content">
@@ -241,16 +261,38 @@ progress.addEventListener("click", async (e) => {
     e.preventDefault();
     clearActiveClass();
     document.querySelector(".progress").classList.add("active");
-    const parent = document.querySelector(".main-content-area");
-    const tempContent = document.querySelector(".main-content-area main");
-    if (tempContent) {
-        parent.removeChild(tempContent);
+    
+    // Fetch the Progress.html content
+    try {
+        const response = await fetch('/home/Progress.html');
+        if (!response.ok) throw new Error('Failed to load Progress page');
+        const html = await response.text();
+        
+        // Create a temporary div to parse the HTML
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        
+        // Extract the main content
+        const newContent = temp.querySelector('.main-content-area main');
+        
+        // Replace the existing content
+        const parent = document.querySelector(".main-content-area");
+        const oldContent = parent.querySelector("main");
+        if (oldContent) {
+            parent.removeChild(oldContent);
+        }
+        
+        parent.appendChild(newContent);
+        
+        // Initialize the progress page
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = '/home/progress.js';
+        document.body.appendChild(script);
+    } catch (error) {
+        console.error('Error loading Progress page:', error);
     }
-
-    const content = document.createElement("main");
-    content.classList.add("content");
-    content.innerHTML = sprogress;
-    parent.appendChild(content);
+    
     logout();
     history.pushState({}, "", "progress");
 });
