@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Error</title>
+  <link rel='stylesheet' href='/css/style.css' />
+</head>
+<body>
+  <div class="error-container">
+    <h1><%= message %></h1>
+    <% if (process.env.NODE_ENV === 'development') { %>
+      <h2><%= error.status %></h2>
+      <pre><%= error.stack %></pre>
+    <% } %>
+    <a href="/" class="btn btn-primary">Return to Home</a>
+  </div>
+</body>
+</html> 

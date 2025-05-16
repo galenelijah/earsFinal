@@ -1,0 +1,41 @@
+<header class="main-header">
+    <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+        <input type="search" placeholder="Search training modules and assessments" aria-label="Search training modules and assessments">
+    </div>
+    <div class="user-info">
+         <i class="fa-regular fa-bell notification-icon" aria-hidden="true"></i>
+        <span id="user-role"><%= user ? (user.role || 'Employee') : 'Employee' %></span>
+        <% if (user && user.username) { %>
+            <span><%= user.username %></span>
+        <% } %>
+        <i class="fa-regular fa-circle-user user-icon" aria-hidden="true"></i>
+        <button id="logout-button" aria-label="Logout">Logout</button>
+    </div>
+</header>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const logoutButton = document.getElementById('logout-button');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', () => {
+                sessionStorage.removeItem('isUserLoggedIn'); 
+                // TODO: Add a call to a backend logout endpoint if it exists
+                // fetch('/auth/logout', { method: 'POST' })
+                // .then(response => {
+                //     if (response.ok) {
+                //         window.location.href = '/auth/login.html'; 
+                //     } else {
+                //         console.error('Logout failed');
+                //         alert('Logout failed. Please try again.');
+                //     }
+                // })
+                // .catch(error => {
+                //     console.error('Error during logout:', error);
+                //     alert('An error occurred during logout.');
+                // });
+                console.log('Logout initiated. Redirecting to login page.');
+                window.location.href = '/auth/login.html'; // Simplified redirect for now
+            });
+        }
+    });
+</script> 

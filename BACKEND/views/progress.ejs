@@ -1,0 +1,122 @@
+<%- include('partials/_layout_start.ejs'); %>
+
+<div class="main-content-area">
+    <%- include('partials/_header.ejs'); %>
+    <main class="content">
+        <div class="progress-container">
+            <div class="progress-header">
+                <h1>My Progress</h1>
+                <p>Track your learning journey</p>
+            </div>
+
+            <div class="progress-summary">
+                <div class="circular-progress">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle
+                          class="progress-ring-circle"
+                          stroke="#ddd"
+                          stroke-width="8"
+                          fill="transparent"
+                          r="52"
+                          cx="60"
+                          cy="60"
+                        />
+                        <circle
+                          class="progress-ring-circle"
+                          stroke="var(--primary)"
+                          stroke-width="8"
+                          fill="transparent"
+                          r="52"
+                          cx="60"
+                          cy="60"
+                          style="stroke-dasharray: 326.73; stroke-dashoffset: <%= ((1 - overallStats.completionPercentage / 100) * 326.73).toFixed(2) %>;"
+                        />
+                    </svg>
+                    <div class="progress-percentage">
+                        <%= overallStats.completionPercentage %>%
+                    </div>
+                </div>
+
+                <div class="progress-stats">
+                    <div class="stat">
+                        <div class="stat-value"><%= overallStats.modulesCompleted %></div>
+                        <div class="stat-label">Modules Completed</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value"><%= overallStats.modulesInProgress %></div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value"><%= overallStats.averageScore %>%</div>
+                        <div class="stat-label">Average Score</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="module-search">Search Modules</label>
+                    <input type="text" id="module-search" placeholder="Search by title or category">
+                </div>
+                <div class="filter-group">
+                    <label for="status-filter">Filter by Status</label>
+                    <select id="status-filter">
+                        <option value="">All</option>
+                        <option value="not-started">Not Started</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort By</label>
+                    <select id="sort-by">
+                        <option value="title">Title</option>
+                        <option value="category">Category</option>
+                        <option value="progress">Progress</option>
+                        <option value="recent">Recently Updated</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="module-list">
+                <% progress.forEach(function(item) { %>
+                <div class="module-card" data-status="<%= item.overallStatus %>">
+                    <div class="module-header">
+                        <h3><%= item.module.title %></h3>
+                        <span class="status-tag status-<%= item.overallStatus %>">
+                            <%= item.overallStatus %>
+                        </span>
+                    </div>
+                    <div class="module-category">
+                        <%= item.module.category %>
+                    </div>
+                    <div class="module-meta">
+                        <span>Difficulty: <%= item.module.difficulty %></span>
+                        <span>Duration: <%= item.module.estimatedDuration %></span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress">
+                            <div class="progress-bar" style="width: <%= item.percentageComplete %>%;"></div>
+                        </div>
+                        <div class="progress-text">
+                            <%= item.percentageComplete %>% Complete
+                        </div>
+                    </div>
+                    <% if (item.overallStatus === 'completed') { %>
+                    <div class="completion-info">
+                        Completed on <%= new Date(item.completedAt).toLocaleDateString() %>
+                        <% if (item.overallScore) { %>
+                        | Score: <%= item.overallScore %>%
+                        <% } %>
+                    </div>
+                    <% } %>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="/js/progress.js"></script>
+
+<%- include('partials/_layout_end.ejs'); %> 
