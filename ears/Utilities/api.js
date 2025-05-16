@@ -1,4 +1,4 @@
-const HOST = "";
+const HOST = "https://ears-app-1cada786efcd.herokuapp.com";
 
 export const CheckLogin = async (user) =>{
   const details ={};
@@ -136,24 +136,41 @@ export const GetCourseList = async () => {
     };
 
     try {
-        console.log('Fetching course list...');
-        const response = await fetch(`${HOST}/ears/info/courselist`, requestOptions);
-        console.log('Course list response status:', response.status);
+        const url = `${HOST}/ears/info/courselist`;
+        console.log('Fetching course list from:', url);
+        
+        const response = await fetch(url, requestOptions);
+        console.log('Course list response:', {
+            status: response.status,
+            statusText: response.statusText,
+            headers: Object.fromEntries(response.headers.entries())
+        });
         
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error('Response not OK:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
         
         const data = await response.json();
         console.log('Course list data:', data);
         
-        if (!data || !Array.isArray(data)) {
-            throw new Error('Invalid data format received');
+        if (!data) {
+            throw new Error('No data received from server');
         }
         
-        details.result = data;
+        // If data is empty array, that's valid
+        if (Array.isArray(data)) {
+            details.result = data;
+        } else {
+            // If data is an object with a specific structure, handle it
+            details.result = data.courses || data.result || [];
+        }
     } catch (error) {
-        console.error('Error fetching course list:', error);
+        console.error('Error fetching course list:', {
+            message: error.message,
+            stack: error.stack
+        });
         details.result = null;
         details.error = error.message;
     }

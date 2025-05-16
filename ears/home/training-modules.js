@@ -56,16 +56,23 @@ async function loadModules() {
             throw new Error('No response from GetCourseList');
         }
 
+        // Handle empty but valid response
+        if (response.result && Array.isArray(response.result) && response.result.length === 0) {
+            grid.innerHTML = `
+                <div class="info-message">
+                    <i class="fas fa-info-circle"></i>
+                    <p>No training modules are currently available.</p>
+                    <p class="sub-text">Please check back later or contact support if you believe this is an error.</p>
+                </div>
+            `;
+            return;
+        }
+
         if (!response.result) {
             if (response.error) {
                 throw new Error(`API Error: ${response.error}`);
             }
             throw new Error('Failed to fetch modules');
-        }
-
-        if (!Array.isArray(response.result)) {
-            console.error('Invalid response format:', response.result);
-            throw new Error('Invalid module data received');
         }
 
         console.log('Processing modules:', response.result);
@@ -91,9 +98,18 @@ async function loadModules() {
                 <p>${error.message === 'User not authenticated' ? 
                     'Please log in to view modules.' : 
                     `Failed to load modules: ${error.message}`}</p>
+                <div class="error-details">
+                    <p>Troubleshooting steps:</p>
+                    <ol>
+                        <li>Check your internet connection</li>
+                        <li>Try refreshing the page</li>
+                        <li>Log out and log back in</li>
+                        <li>If the problem persists, contact support</li>
+                    </ol>
+                </div>
                 ${error.message === 'User not authenticated' ? 
                     '<button onclick="window.location.href=\'/\'">Go to Login</button>' : 
-                    '<button onclick="loadModules()">Retry</button>'}
+                    '<button onclick="loadModules()">Retry Loading</button>'}
             </div>
         `;
     }
