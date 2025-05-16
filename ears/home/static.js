@@ -98,7 +98,7 @@ export const ssupport = `
     title: "Introduction to Computer Science",
     modules: [
       { 
-        title: "Computer Science Fundamentals",
+        title: "Introduction to Computer Science",
         body: "Overview of algorithms, data structures, and computational thinking." 
       },
       { 
