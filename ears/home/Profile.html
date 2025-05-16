@@ -61,11 +61,19 @@
       </header>
 
       <main class="content">
-        <div class="profile-container">
+        <div class="profile-container enhanced-profile-card">
           <h1>User Profile</h1>
           <div id="message" class="message" style="display: none;"></div>
-          
-          <form id="profile-form" class="auth-form">
+          <div class="profile-header">
+            <img src="/assets/avatar-placeholder.png" alt="User Avatar" class="profile-avatar" id="profile-avatar" />
+            <div class="profile-main-info">
+              <h2 id="display-name">Name</h2>
+              <p id="display-email">Email</p>
+              <span id="display-role" class="profile-role">Employee</span>
+            </div>
+            <button type="button" id="edit-profile-btn" class="btn edit-btn">Edit Profile</button>
+          </div>
+          <form id="profile-form" class="auth-form" style="display: none;">
             <div class="form-group">
               <label for="name">Name:</label>
               <input type="text" id="name" name="name" required>
@@ -74,8 +82,49 @@
               <label for="email">Email:</label>
               <input type="email" id="email" name="email" required>
             </div>
-            <button type="submit" class="btn">Update Profile</button>
+            <div class="form-group">
+              <label for="gender">Gender:</label>
+              <select id="gender" name="gender">
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <input type="text" id="address" name="address">
+            </div>
+            <button type="submit" class="btn">Save Changes</button>
+            <button type="button" id="cancel-edit-btn" class="btn cancel-btn">Cancel</button>
           </form>
+          <div class="profile-details">
+            <p><strong>Gender:</strong> <span id="display-gender">-</span></p>
+            <p><strong>Address:</strong> <span id="display-address">-</span></p>
+          </div>
+          <button type="button" id="change-password-btn" class="btn password-btn">Change Password</button>
+        </div>
+        <!-- Password Change Modal (UI only) -->
+        <div id="password-modal" class="modal" style="display:none;">
+          <div class="modal-content">
+            <span class="close" id="close-password-modal">&times;</span>
+            <h2>Change Password</h2>
+            <form id="password-form">
+              <div class="form-group">
+                <label for="current-password">Current Password:</label>
+                <input type="password" id="current-password" name="current-password" required>
+              </div>
+              <div class="form-group">
+                <label for="new-password">New Password:</label>
+                <input type="password" id="new-password" name="new-password" required>
+              </div>
+              <div class="form-group">
+                <label for="confirm-password">Confirm New Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+              </div>
+              <button type="submit" class="btn">Update Password</button>
+            </form>
+          </div>
         </div>
       </main>
 
